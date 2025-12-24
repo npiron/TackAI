@@ -13,14 +13,18 @@ class GymTimeAttack(gym.Env):
     """
     Gym wrapper around TimeAttackEnv.
 
-    Action: Discrete(5)
-      0: Idle
+    Action: Discrete(9) - Complete on/off button controls
+      0: Idle (no input)
       1: Accelerate
       2: Brake
-      3: Left + Accelerate
-      4: Right + Accelerate
+      3: Left (steer only)
+      4: Right (steer only)
+      5: Left + Accelerate
+      6: Right + Accelerate
+      7: Left + Brake
+      8: Right + Brake
 
-    Obs: 17 floats (12 base + 5 LIDAR)
+    Obs: 14 floats (Pilot-Centric)
     """
     metadata = {"render_modes": ["human"]}
 
@@ -35,8 +39,8 @@ class GymTimeAttack(gym.Env):
 
         # Obs: 14 floats (Pilot-Centric)
         self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape=(14,), dtype=np.float32)
-        # 5 Discrete Actions for Arcade Logic
-        self.action_space = spaces.Discrete(5)
+        # 9 Discrete Actions for Complete Arcade Control (on/off buttons)
+        self.action_space = spaces.Discrete(9)
 
         self._last_progress = 0.0
         self.render_mode = render_mode
@@ -143,8 +147,9 @@ class GymTimeAttack(gym.Env):
         if self.step_counter % 60 == 0:
             self._load_config()
 
-        # Decode Discrete Action
-        # 0: Idle, 1: Acc, 2: Brake, 3: L+A, 4: R+A
+        # Decode Discrete Action (Complete on/off button controls)
+        # 0: Idle, 1: Acc, 2: Brake, 3: Left, 4: Right
+        # 5: L+A, 6: R+A, 7: L+B, 8: R+B
         steer, accel, brake = 0.0, 0.0, 0.0
         if action == 1:
             accel = 1.0
@@ -152,10 +157,20 @@ class GymTimeAttack(gym.Env):
             brake = 1.0
         elif action == 3:
             steer = -1.0
-            accel = 1.0
         elif action == 4:
             steer = 1.0
+        elif action == 5:
+            steer = -1.0
             accel = 1.0
+        elif action == 6:
+            steer = 1.0
+            accel = 1.0
+        elif action == 7:
+            steer = -1.0
+            brake = 1.0
+        elif action == 8:
+            steer = 1.0
+            brake = 1.0
             
         obs, reward, done, info = self.ta.step((steer, accel, brake))
 

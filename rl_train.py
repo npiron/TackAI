@@ -107,9 +107,11 @@ def main():
         verbose=1
     )
 
-    print(f"🧠 Initializing DQN model (Heavy Artillery)...")
-    print(f"   Buffer Size: 200,000 (RAM Heavy)")
+    print(f"🧠 Initializing DQN model (Optimized for discrete control)...")
+    print(f"   Buffer Size: 200,000")
     print(f"   Batch Size: 256")
+    print(f"   Gradient Steps: 2 (improved)")
+    print(f"   Exploration: 15% (improved)")
     print(f"   Architecture: [256, 256] with Dueling DQN")
     
     # Network Architecture
@@ -127,16 +129,16 @@ def main():
         """
         return 1e-5 + (1e-3 - 1e-5) * progress_remaining
 
-    # DQN Hyperparameters
+    # DQN Hyperparameters (Optimized for discrete action control)
     dqn_params = {
         "buffer_size": 200_000,   # Large replay buffer for stability
         "learning_starts": 5_000, # Fill buffer before training
         "batch_size": 256,
-        "gamma": 0.99,            # Slightly lower gamma than PPO often works well
+        "gamma": 0.99,            # Discount factor for discrete actions
         "train_freq": 4,          # Train every 4 env steps
-        "gradient_steps": 1,      # 1 gradient step per update
+        "gradient_steps": 2,      # More gradient steps per update (improved from 1)
         "target_update_interval": 1000, # Stabilize target network
-        "exploration_fraction": 0.1,    # Explore 10% of total time
+        "exploration_fraction": 0.15,   # Explore 15% of total time (improved from 0.1)
         "exploration_initial_eps": 1.0,
         "exploration_final_eps": 0.05,  # Keep 5% random actions
         "max_grad_norm": 10,

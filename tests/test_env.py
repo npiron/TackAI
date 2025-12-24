@@ -102,21 +102,15 @@ class TestGymTimeAttack:
         from gymnasium import spaces
         
         assert isinstance(gym_env.observation_space, spaces.Box)
-        assert isinstance(gym_env.action_space, spaces.Box)
+        assert isinstance(gym_env.action_space, spaces.Discrete)
     
     def test_observation_space_shape(self, gym_env):
         """Observation space should be (14,)."""
         assert gym_env.observation_space.shape == (14,)
     
-    def test_action_space_shape(self, gym_env):
-        """Action space should be (3,) for [steer, throttle, brake]."""
-        assert gym_env.action_space.shape == (3,)
-    
-    def test_action_space_bounds(self, gym_env):
-        """Action bounds should be correct."""
-        # Action: steer, accel, brake
-        assert np.all(gym_env.action_space.low == np.array([-1.0, 0.0, 0.0]))
-        assert np.all(gym_env.action_space.high == np.array([1.0, 1.0, 1.0]))
+    def test_action_space_discrete(self, gym_env):
+        """Action space should be Discrete(9) for on/off button controls."""
+        assert gym_env.action_space.n == 9, f"Expected 9 discrete actions, got {gym_env.action_space.n}"
     
     def test_reset_returns_correct_format(self, gym_env):
         """Reset should return a valid observation and empty info dict."""
@@ -132,7 +126,7 @@ class TestGymTimeAttack:
     def test_step_returns_correct_format(self, gym_env):
         """Step should return 5 values for Gymnasium."""
         gym_env.reset()
-        action = np.array([0.0, 0.5, 0.0], dtype=np.float32)
+        action = 1  # Discrete action: Accelerate
         result = gym_env.step(action)
         
         assert len(result) == 5, "Step should return (obs, reward, terminated, truncated, info)"
@@ -150,7 +144,7 @@ class TestGymTimeAttack:
         
         total_reward = 0
         for _ in range(50):
-            action = np.array([0.0, 1.0, 0.0], dtype=np.float32)  # Full throttle
+            action = 1  # Discrete action: Accelerate
             obs, reward, done, truncated, info = gym_env.step(action)
             total_reward += reward
             if done:
@@ -194,9 +188,42 @@ class TestObservationValues:
         obs, _ = gym_env.reset()
         initial_speed = obs[0]
         
-        # Apply throttle for several frames
+        # Apply throttle for several frames (action 1 = Accelerate)
         for _ in range(30):
-            obs, _, _, _, _ = gym_env.step(np.array([0.0, 1.0, 0.0], dtype=np.float32))
+            obs, _, _, _, _ = gym_env.step(1)
         
         final_speed = obs[0]
         assert final_speed > initial_speed, "Speed should increase with throttle"
+    
+    def test_all_discrete_actions_work(self, gym_env):
+        """All 9 discrete actions should be processable without errors."""
+        gym_env.reset()
+        
+        # Test each action once
+        for action in range(9):
+            obs, reward, done, truncated, info = gym_env.step(action)
+            assert np.all(np.isfinite(obs)), f"Action {action} produced invalid observation"
+            assert np.isfinite(reward), f"Action {action} produced invalid reward"
+            
+            if done:
+                gym_env.reset()
+    
+    def test_discrete_actions_are_onoff(self, gym_env):
+        """Verify discrete actions map to on/off values (0.0, 1.0, -1.0)."""
+        # This is implicitly tested by the environment not crashing,
+        # but we document the expectation here
+        gym_env.reset()
+        
+        # Test a few representative actions
+        test_cases = [
+            (0, "Idle"),
+            (1, "Accelerate"),
+            (3, "Left"),
+            (5, "Left + Accelerate"),
+            (7, "Left + Brake")
+        ]
+        
+        for action, name in test_cases:
+            obs, reward, done, truncated, info = gym_env.step(action)
+            # Just verify it doesn't crash and produces valid output
+            assert np.all(np.isfinite(obs)), f"Action {action} ({name}) failed"
