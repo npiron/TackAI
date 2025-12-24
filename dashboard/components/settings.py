@@ -81,11 +81,31 @@ def create_settings_tab():
         
         with gr.Row():
             with gr.Column():
-                num_checkpoints = gr.Number(value=10, label="Number of Checkpoints", interactive=False)
-                checkpoint_radius = gr.Number(value=60, label="Checkpoint Radius", interactive=False)
+                num_checkpoints = gr.Number(
+                    value=10,
+                    label="Number of Checkpoints",
+                    interactive=False,
+                    elem_classes=["stat-card"]
+                )
+                checkpoint_radius = gr.Number(
+                    value=60,
+                    label="Checkpoint Radius",
+                    interactive=False,
+                    elem_classes=["stat-card"]
+                )
             with gr.Column():
-                finish_radius = gr.Number(value=50, label="Finish Radius", interactive=False)
-                track_width = gr.Number(value=120, label="Track Width", interactive=False)
+                finish_radius = gr.Number(
+                    value=50,
+                    label="Finish Radius",
+                    interactive=False,
+                    elem_classes=["stat-card"]
+                )
+                track_width = gr.Number(
+                    value=120,
+                    label="Track Width",
+                    interactive=False,
+                    elem_classes=["stat-card"]
+                )
         
         gr.Markdown("*Track settings require code modification*")
         
@@ -98,7 +118,7 @@ def create_settings_tab():
             clear_logs_btn = gr.Button("🗑️ Clear Logs")
             clear_cache_btn = gr.Button("🧹 Clear Cache")
         
-        maintenance_status = gr.Textbox(label="Status", interactive=False)
+        maintenance_status = gr.Textbox(label="Status", interactive=False, elem_classes=["panel-card"])
         
         def clear_logs():
             from dashboard.utils.data import clear_logs

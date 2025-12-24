@@ -58,7 +58,7 @@ def create_training_tab():
                 
                 # Launch buttons
                 start_btn = gr.Button("▶️ Start Training", variant="primary", size="lg")
-                status_output = gr.Textbox(label="Status", interactive=False)
+                status_output = gr.Textbox(label="Status", interactive=False, elem_classes=["panel-card"])
                 
                 # Preset change handler
                 def update_preset(preset_name):
@@ -81,16 +81,29 @@ def create_training_tab():
                 
                 # Metrics
                 with gr.Row():
-                    fps_metric = gr.Number(value=0, label="⚡ FPS", interactive=False)
-                    steps_metric = gr.Number(value=0, label="👣 Steps", interactive=False)
-                    reward_metric = gr.Number(value=0, label="💰 Reward", interactive=False, precision=1)
-                    progress_metric = gr.Number(value=0, label="📈 Progress %", interactive=False, precision=1)
+                    fps_metric = gr.Number(value=0, label="⚡ FPS", interactive=False, elem_classes=["stat-card"])
+                    steps_metric = gr.Number(value=0, label="👣 Steps", interactive=False, elem_classes=["stat-card"])
+                    reward_metric = gr.Number(
+                        value=0,
+                        label="💰 Reward",
+                        interactive=False,
+                        precision=1,
+                        elem_classes=["stat-card"]
+                    )
+                    progress_metric = gr.Number(
+                        value=0,
+                        label="📈 Progress %",
+                        interactive=False,
+                        precision=1,
+                        elem_classes=["stat-card"]
+                    )
                 
                 # Progress bar simulation
                 progress_bar = gr.Slider(
                     minimum=0, maximum=100, value=0,
                     label="Training Progress",
-                    interactive=False
+                    interactive=False,
+                    elem_classes=["panel-card"]
                 )
                 
                 # Logs
@@ -100,7 +113,8 @@ def create_training_tab():
                     label="",
                     lines=12,
                     max_lines=15,
-                    interactive=False
+                    interactive=False,
+                    elem_classes=["panel-card", "mono"]
                 )
         
         # Event handlers

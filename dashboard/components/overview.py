@@ -18,7 +18,8 @@ def create_overview_tab():
                 models_count = gr.Number(
                     value=len(get_models()),
                     label="🏷️ Models Trained",
-                    interactive=False
+                    interactive=False,
+                    elem_classes=["stat-card"]
                 )
             with gr.Column(scale=1):
                 stats = get_training_stats()
@@ -26,13 +27,15 @@ def create_overview_tab():
                     value=stats['best_reward'],
                     label="🏆 Best Reward",
                     interactive=False,
-                    precision=1
+                    precision=1,
+                    elem_classes=["stat-card"]
                 )
             with gr.Column(scale=1):
                 total_episodes = gr.Number(
                     value=stats['total_episodes'],
                     label="📊 Total Episodes",
-                    interactive=False
+                    interactive=False,
+                    elem_classes=["stat-card"]
                 )
             with gr.Column(scale=1):
                 procs = get_running_processes()
@@ -40,7 +43,8 @@ def create_overview_tab():
                 status = gr.Textbox(
                     value=status_text,
                     label="Status",
-                    interactive=False
+                    interactive=False,
+                    elem_classes=["stat-card"]
                 )
         
         gr.Markdown("---")
@@ -63,7 +67,8 @@ def create_overview_tab():
                     value=get_processes_text(),
                     label="",
                     lines=4,
-                    interactive=False
+                    interactive=False,
+                    elem_classes=["panel-card", "mono"]
                 )
             
             with gr.Column(scale=1):
@@ -72,12 +77,14 @@ def create_overview_tab():
                 cpu_display = gr.Textbox(
                     value=f"CPU: {sys_stats['cpu_percent']:.0f}%",
                     label="",
-                    interactive=False
+                    interactive=False,
+                    elem_classes=["panel-card"]
                 )
                 ram_display = gr.Textbox(
                     value=f"RAM: {sys_stats['ram_used_gb']:.1f}/{sys_stats['ram_total_gb']:.0f} GB ({sys_stats['ram_percent']:.0f}%)",
                     label="",
-                    interactive=False
+                    interactive=False,
+                    elem_classes=["panel-card"]
                 )
         
         gr.Markdown("---")

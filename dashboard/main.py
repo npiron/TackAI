@@ -18,23 +18,134 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # === DARK MODE CSS ===
 CUSTOM_CSS = """
-.gradio-container, .main, body, html { background: #0d1117 !important; outline: none !important; }
-.panel, .block, .form, .container { background: #161b22 !important; border-color: #30363d !important; outline: none !important; }
-*, label, span, p, h1, h2, h3, h4, .label, .label-wrap { color: #c9d1d9 !important; }
-h1, h2, h3 { color: #58a6ff !important; }
-input, textarea, select, .wrap { background: #0d1117 !important; color: #c9d1d9 !important; border: 1px solid #30363d !important; }
-table, th, td, .dataframe { background: #161b22 !important; color: #c9d1d9 !important; border-color: #30363d !important; }
-th { background: #21262d !important; }
-button { background: #21262d !important; border: 1px solid #30363d !important; color: #c9d1d9 !important; }
-button:hover { background: #30363d !important; }
-button.primary { background: linear-gradient(135deg, #238636, #2ea043) !important; border-color: #238636 !important; }
-button.stop { background: linear-gradient(135deg, #da3633, #f85149) !important; border-color: #da3633 !important; }
-.sidebar { background: linear-gradient(180deg, #0d1117, #161b22) !important; border-right: 1px solid #21262d !important; }
-.gr-number input { background: #0d1117 !important; color: #c9d1d9 !important; }
-.proc-btn { text-align: left !important; justify-content: flex-start !important; }
+:root {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-tertiary: #0f141b;
+  --border-default: #263040;
+  --border-strong: #30363d;
+  --text-primary: #c9d1d9;
+  --text-muted: #8b949e;
+  --accent: #58a6ff;
+  --success: #2ea043;
+  --danger: #f85149;
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.gradio-container, .main, body, html {
+  background: var(--bg-primary) !important;
+  outline: none !important;
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif !important;
+}
+
+.panel, .block, .form, .container {
+  background: var(--bg-secondary) !important;
+  border-color: var(--border-strong) !important;
+  outline: none !important;
+  border-radius: 14px !important;
+}
+
+*, label, span, p, h1, h2, h3, h4, .label, .label-wrap {
+  color: var(--text-primary) !important;
+}
+
+h1, h2, h3 {
+  color: var(--accent) !important;
+  letter-spacing: 0.2px;
+}
+
+.gradio-container .tabitem {
+  gap: 16px;
+}
+
+input, textarea, select, .wrap {
+  background: var(--bg-tertiary) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-default) !important;
+  border-radius: 10px !important;
+}
+
+table, th, td, .dataframe {
+  background: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-default) !important;
+}
+
+th {
+  background: #21262d !important;
+}
+
+button {
+  background: #21262d !important;
+  border: 1px solid var(--border-default) !important;
+  color: var(--text-primary) !important;
+  border-radius: 12px !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+button:hover {
+  background: #30363d !important;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+  transform: translateY(-1px);
+}
+
+button.primary {
+  background: linear-gradient(135deg, #238636, var(--success)) !important;
+  border-color: #238636 !important;
+  color: #f0f6fc !important;
+}
+
+button.stop {
+  background: linear-gradient(135deg, #da3633, var(--danger)) !important;
+  border-color: #da3633 !important;
+  color: #f0f6fc !important;
+}
+
+.sidebar {
+  background: linear-gradient(180deg, #0d1117, #141a23) !important;
+  border-right: 1px solid #21262d !important;
+}
+
+.gr-number input {
+  background: var(--bg-tertiary) !important;
+  color: var(--text-primary) !important;
+}
+
+.proc-btn {
+  text-align: left !important;
+  justify-content: flex-start !important;
+}
+
+.stat-card .block,
+.panel-card .block {
+  background: var(--bg-tertiary) !important;
+  border: 1px solid var(--border-default) !important;
+  box-shadow: var(--shadow-soft);
+  padding: 14px 16px !important;
+}
+
+.stat-card .label,
+.panel-card .label {
+  color: var(--text-muted) !important;
+  font-weight: 600 !important;
+}
+
+.mono textarea,
+.mono input {
+  font-family: "JetBrains Mono", "SFMono-Regular", Menlo, monospace !important;
+}
+
+.section-divider {
+  margin: 12px 0 6px;
+  border-top: 1px solid var(--border-default);
+}
 
 /* Remove focus outlines */
-*:focus { outline: none !important; box-shadow: none !important; }
+*:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
 .gradio-container:focus, .main:focus { outline: none !important; }
 """
 

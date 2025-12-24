@@ -36,7 +36,7 @@ def create_playground_tab():
                     )
                 
                 watch_btn = gr.Button("▶️ Watch AI Drive", variant="primary", size="lg")
-                watch_status = gr.Textbox(label="Status", interactive=False)
+                watch_status = gr.Textbox(label="Status", interactive=False, elem_classes=["panel-card"])
                 
                 def watch_ai(model_name):
                     if not model_name:
@@ -75,7 +75,7 @@ def create_playground_tab():
                 """)
                 
                 play_btn = gr.Button("🎮 Start Game", variant="primary", size="lg")
-                play_status = gr.Textbox(label="Status", interactive=False)
+                play_status = gr.Textbox(label="Status", interactive=False, elem_classes=["panel-card"])
                 
                 def start_manual():
                     try:
@@ -96,7 +96,7 @@ def create_playground_tab():
             with gr.Column():
                 gr.Markdown("### ⏹️ Stop Everything")
                 stop_btn = gr.Button("🛑 Stop All Processes", variant="stop")
-                stop_status = gr.Textbox(label="", interactive=False)
+                stop_status = gr.Textbox(label="", interactive=False, elem_classes=["panel-card"])
                 
                 def stop_all():
                     count = stop_all_processes()
