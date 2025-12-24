@@ -1,0 +1,10 @@
+{
+    "progress_weight": 2.3,
+    "track_penalty": 10,
+    "speed_weight": 0.4,
+    "wall_penalty": 0,
+    "checkpoint_bonus": 40,
+    "time_bonus": 10,
+    "alignment_weight": 5,
+    "checkpoint_scaling": 0.25
+}
