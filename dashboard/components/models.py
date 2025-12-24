@@ -19,7 +19,8 @@ def create_models_tab():
             value=get_models_dataframe(),
             headers=["Model", "Steps", "Size", "Created"],
             interactive=False,
-            wrap=True
+            wrap=True,
+            elem_classes=["panel-card"]
         )
         
         # Refresh button
@@ -51,7 +52,7 @@ def create_models_tab():
             download_btn = gr.Button("⬇️ Download")
             delete_btn = gr.Button("🗑️ Delete", variant="stop")
         
-        action_status = gr.Textbox(label="Status", interactive=False)
+        action_status = gr.Textbox(label="Status", interactive=False, elem_classes=["panel-card"])
         
         # Download handler
         def get_model_file(model_name):

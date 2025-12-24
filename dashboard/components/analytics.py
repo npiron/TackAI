@@ -17,13 +17,18 @@ def create_analytics_tab():
             stats = get_training_stats()
             
             with gr.Column():
-                gr.Number(value=stats['total_episodes'], label="Total Episodes", interactive=False)
+                gr.Number(value=stats['total_episodes'], label="Total Episodes", interactive=False, elem_classes=["stat-card"])
             with gr.Column():
-                gr.Number(value=round(stats['best_reward'], 1), label="Best Reward", interactive=False)
+                gr.Number(value=round(stats['best_reward'], 1), label="Best Reward", interactive=False, elem_classes=["stat-card"])
             with gr.Column():
-                gr.Number(value=round(stats['avg_reward'], 1), label="Average Reward", interactive=False)
+                gr.Number(value=round(stats['avg_reward'], 1), label="Average Reward", interactive=False, elem_classes=["stat-card"])
             with gr.Column():
-                gr.Number(value=round(stats['recent_reward'], 1), label="Recent Avg (10)", interactive=False)
+                gr.Number(
+                    value=round(stats['recent_reward'], 1),
+                    label="Recent Avg (10)",
+                    interactive=False,
+                    elem_classes=["stat-card"]
+                )
         
         gr.Markdown("---")
         
@@ -108,7 +113,8 @@ def create_analytics_tab():
             gr.Dataframe(
                 value=leaderboard_df,
                 headers=["Rank", "Model", "Steps", "Created"],
-                interactive=False
+                interactive=False,
+                elem_classes=["panel-card"]
             )
         else:
             gr.Markdown("*No models trained yet.*")
